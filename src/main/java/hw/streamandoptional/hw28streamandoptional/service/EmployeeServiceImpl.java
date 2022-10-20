@@ -1,5 +1,6 @@
 package hw.streamandoptional.hw28streamandoptional.service;
 
+import hw.streamandoptional.hw28streamandoptional.exception.InvalidInputException;
 import hw.streamandoptional.hw28streamandoptional.model.Employee;
 import org.springframework.stereotype.Service;
 
@@ -8,6 +9,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static org.apache.commons.lang3.StringUtils.*;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -20,6 +23,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee addEmployee(String firstName, String lastName, int department, int salary) {
+        validateInput(firstName, lastName);
+
         Employee employee = new Employee(firstName, lastName, department, salary);
         if (employees.contains(employee)) {
             throw new RuntimeException("Сотрудник уже имеется в массиве");
@@ -31,6 +36,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee removeEmployee(String firstName, String lastName) {
+        validateInput(firstName, lastName);
+
         Employee employee = findEmployee(firstName, lastName);
         employees.remove(employee);
         return employee;
@@ -38,6 +45,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee findEmployee(String firstName, String lastName) {
+        validateInput(firstName, lastName);
+
         final Optional<Employee> employee = employees.stream()
                 .filter(e -> e.getFirstName().equals(firstName)
                         && e.getLastName().equals(lastName))
@@ -91,6 +100,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employees;
     }
 
-
-
+    private void validateInput(String firstName, String lastName) {
+        if (!(isAlpha(firstName) && isAlpha(lastName))) {
+            throw new InvalidInputException();
+        }
+    }
 }
