@@ -1,7 +1,5 @@
 package hw.streamandoptional.hw28streamandoptional.model;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.Objects;
 
 import static org.apache.commons.lang3.StringUtils.capitalize;
@@ -9,10 +7,10 @@ import static org.apache.commons.lang3.StringUtils.capitalize;
 public class Employee {
     private final String firstName;
     private final String lastName;
-    private final int salary;
-    private final int department;
+    private final Integer salary;
+    private final Integer department;
 
-    public Employee(String firstName, String lastName, int salary, int department) {
+    public Employee(String firstName, String lastName, Integer salary, Integer department) {
         this.firstName = capitalize(firstName.toLowerCase());
         this.lastName = capitalize(lastName.toLowerCase());
         this.salary = salary;
@@ -28,11 +26,11 @@ public class Employee {
         return lastName;
     }
 
-    public int getSalary() {
+    public Integer getSalary() {
         return salary;
     }
 
-    public int getDepartment() {
+    public Integer getDepartment() {
         return department;
     }
 

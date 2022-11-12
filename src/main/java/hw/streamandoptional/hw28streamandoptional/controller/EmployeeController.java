@@ -20,8 +20,8 @@ public class EmployeeController {
     public Object addEmployee(
             @RequestParam(value = "firstName") String firstName,
             @RequestParam(value = "lastName") String lastName,
-            @RequestParam(value = "salary") int salary,
-            @RequestParam(value = "department") int department) {
+            @RequestParam(value = "salary") Integer salary,
+            @RequestParam(value = "department") Integer department) {
         Employee employee = null;
         try {
             employee = employeeService.addEmployee(firstName, lastName, salary, department);
@@ -56,10 +56,10 @@ public class EmployeeController {
     }
     @GetMapping(path = "/departments/max-salary")
     public Object getHighestPaidEmployee(
-            @RequestParam(value = "departmentId") int departmentId) {
+            @RequestParam(value = "departmentId") Integer department) {
         Employee employee = null;
         try {
-            employee = employeeService.getHighestPaidEmployee(departmentId);
+            employee = employeeService.getHighestPaidEmployee(department);
         } catch (Throwable e) {
             return e.getMessage();
         }
@@ -67,10 +67,10 @@ public class EmployeeController {
     }
     @GetMapping(path = "/departments/min-salary")
     public Object getLowestPaidEmployee(
-            @RequestParam(value = "departmentId") int departmentId) {
+            @RequestParam(value = "departmentId") Integer department) {
         Employee employee = null;
         try {
-            employee = employeeService.getLowestPaidEmployee(departmentId);
+            employee = employeeService.getLowestPaidEmployee(department);
         } catch (Throwable e) {
             return e.getMessage();
         }
@@ -78,10 +78,10 @@ public class EmployeeController {
     }
     @GetMapping(path = "/departments/all", params = "departmentId")
     public Object printEmployeesForDepartment(
-            @RequestParam(value = "departmentId") int departmentId) {
+            @RequestParam(value = "departmentId") Integer department) {
         List<Employee> employees = null;
         try {
-            employees = employeeService.printEmployeesForDepartment(departmentId);
+            employees = employeeService.printEmployeesForDepartment(department);
         } catch (Throwable e) {
             return e.getMessage();
         }

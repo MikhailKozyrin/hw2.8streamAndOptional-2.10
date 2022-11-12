@@ -4,10 +4,7 @@ import hw.streamandoptional.hw28streamandoptional.exception.InvalidInputExceptio
 import hw.streamandoptional.hw28streamandoptional.model.Employee;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.*;
@@ -21,10 +18,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
 
-    @Override
-    public Employee addEmployee(String firstName, String lastName, int department, int salary) {
-        validateInput(firstName, lastName);
 
+    @Override
+    public Employee addEmployee(String firstName, String lastName, Integer department, Integer salary) {
+        validateInput(firstName, lastName);
         Employee employee = new Employee(firstName, lastName, department, salary);
         if (employees.contains(employee)) {
             throw new RuntimeException("Сотрудник уже имеется в массиве");
@@ -55,25 +52,25 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee getLowestPaidEmployee(int department) {
+    public Employee getLowestPaidEmployee(Integer department) {
         return employees.stream()
-                .filter(e -> e.getDepartment() == department)
+                .filter(e -> Objects.equals(e.getDepartment(), department))
                 .min(Comparator.comparingInt(Employee::getSalary))
                 .orElseThrow(() -> new RuntimeException("Сотрудник не найден"));
     }
 
     @Override
-    public Employee getHighestPaidEmployee(int department) {
+    public Employee getHighestPaidEmployee(Integer department) {
         return employees.stream()
-                .filter(e -> e.getDepartment() == department)
+                .filter(e -> Objects.equals(e.getDepartment(), department))
                 .max(Comparator.comparingInt(Employee::getSalary))
                 .orElseThrow(() -> new RuntimeException("Сотрудник не найден"));
     }
 
     @Override
-    public List<Employee> printEmployeesForDepartment(int department) {
+    public List<Employee> printEmployeesForDepartment(Integer department) {
         return employees.stream()
-                .filter(e -> e.getDepartment() == department)
+                .filter(e -> Objects.equals(e.getDepartment(), department))
                 .collect(Collectors.toList());
     }
 
@@ -100,9 +97,15 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employees;
     }
 
+    @Override
+    public List<Employee> getEmployees() {
+        return new ArrayList<>(employees);
+    }
+
     private void validateInput(String firstName, String lastName) {
         if (!(isAlpha(firstName) && isAlpha(lastName))) {
             throw new InvalidInputException();
         }
     }
 }
+
